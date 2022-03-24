@@ -1,18 +1,34 @@
-import React from 'react';
-import UsuariosInDb from './UsuariosInDb';
-import ProductosInDb from './ProductosInDb';
-import CategoriaInDb from './CategoriaInDb';
+import React from "react";
 
-function App() {
-  return (
-    <React.Fragment>
-      	<div id="wrapper">
-        <UsuariosInDb />
-        <ProductosInDb />
-        <CategoriaInDb />
+import SideBar from "./SideBar";
+
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      categorias: [],
+    };
+  }
+  componentDidMount() {
+    fetch("http://localhost:4000/api/category")
+      .then((respuesta) => {
+        return respuesta.json();
+      })
+      .then((category) => {
+        this.setState({ categorias: category.category });
+      })
+      .catch((error) => console.log(error));
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <div id="wrapper">
+          <SideBar />
         </div>
-    </React.Fragment>
-  );
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;
